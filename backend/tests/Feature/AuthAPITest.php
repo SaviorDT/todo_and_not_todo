@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
 
@@ -19,6 +20,10 @@ class AuthAPITest extends TestCase
     protected function setup() : void {
         parent::setUp();
         PassportClient::initClient();
+
+        $this->withHeaders([
+            'Accept' => 'application/json',
+        ]);
     }
     /**
      * A basic feature test example.
@@ -45,18 +50,25 @@ class AuthAPITest extends TestCase
             'email' => 'login_test',
             'password' => 'login_test'
         ]);
-
+        
         // check token
         $this->get('/api/auth/test', [
             'Authorization' => 'Bearer ' . $response->json()["access_token"],
-        ])->assertJsonFragment([
-            'name' => 'login_test'
-        ]);
+            ])->assertJsonFragment([
+                'name' => 'login_test'
+            ]);
 
+        auth()->forgetGuards();
+            
         // check refresh token
         $response2 = $this->post('/api/auth/refresh', [
             'refresh_token' => $response->json()["refresh_token"]
         ])->assertStatus(200);
+
+        // check old token
+        $this->get('/api/auth/test', [
+            'Authorization' => 'Bearer ' . $response->json()["access_token"]
+        ])->assertStatus(401);
 
         // check new token
         $this->get('/api/auth/test', [

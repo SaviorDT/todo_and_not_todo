@@ -20,6 +20,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->group(function() {
     Route::get('auth/test','App\Http\Controllers\api\AuthController@testToken');
+
+    Route::post('todo','App\Http\Controllers\api\TodoController@create');
+    Route::get('todo','App\Http\Controllers\api\TodoController@read');
+    Route::patch('todo/{id}','App\Http\Controllers\api\TodoController@update');
+
+    Route::post('progress','App\Http\Controllers\api\ProgressController@create');
+    Route::get('progress','App\Http\Controllers\api\ProgressController@read');
+    Route::patch('progress/{id}','App\Http\Controllers\api\ProgressController@update');
 });
 
 Route::post('/auth/register','App\Http\Controllers\api\AuthController@register');
