@@ -36,6 +36,7 @@ class TodoAPITest extends TestCase
         $payload = [
             'title' => 'test create todo title',
             'description' => 'test create todo description',
+            'start_date' => '1999-01-02',
             'due_date' => '1999-01-01'
         ];
 
@@ -51,6 +52,7 @@ class TodoAPITest extends TestCase
         $record = [
             'title' => 'test get todo title',
             'description' => 'test get todo description',
+            'start_date' => '1999-01-02',
             'due_date' => '1999-01-01',
             'user_id' => $this->user['id']
         ];
@@ -67,6 +69,7 @@ class TodoAPITest extends TestCase
         $record = [
             'title' => 'test update todo title',
             'description' => 'test update todo description',
+            'start_date' => '1999-01-02',
             'due_date' => '1999-01-01',
             'user_id' => $this->user['id']
         ];
@@ -80,6 +83,7 @@ class TodoAPITest extends TestCase
         $updatePayload = [
             'title' => 'new test update todo title',
             'description' => 'new test update todo description',
+            'start_date' => '1999-01-03',
             'due_date' => '1999-01-02',
             'completed' => 1,
         ];

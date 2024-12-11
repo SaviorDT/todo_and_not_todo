@@ -35,6 +35,7 @@ class ProgressAPITest extends TestCase
         $payload = [
             'title' => 'test create progress title',
             'description' => 'test create progress description',
+            'start_date' => '1999-01-02',
             'due_date' => '1999-01-01',
             'max_value' => 100
         ];
@@ -51,6 +52,7 @@ class ProgressAPITest extends TestCase
         $record = [
             'title' => 'test get progress title',
             'description' => 'test get progress description',
+            'start_date' => '1999-01-02',
             'due_date' => '1999-01-01',
             'max_value' => 100,
             'user_id' => $this->user['id']
@@ -68,6 +70,7 @@ class ProgressAPITest extends TestCase
         $record = [
             'title' => 'test update progress title',
             'description' => 'test update progress description',
+            'start_date' => '1999-01-02',
             'due_date' => '1999-01-01',
             'max_value' => 100,
             'user_id' => $this->user['id']
@@ -82,6 +85,7 @@ class ProgressAPITest extends TestCase
         $updatePayload = [
             'title' => 'new test update progress title',
             'description' => 'new test update progress description',
+            'start_date' => '1999-01-03',
             'due_date' => '1999-01-02',
             'current_value' => 1,
         ];

@@ -12,5 +12,5 @@ class Progress extends Model
     protected $table = 'progresses';
     protected $primaryKey = 'id';
     public $timestamps = true;
-    protected $fillable = ['title', 'description', 'current_value', 'max_value', 'due_date', 'user_id'];
+    protected $fillable = ['title', 'description', 'current_value', 'max_value', 'start_date', 'due_date', 'user_id'];
 }

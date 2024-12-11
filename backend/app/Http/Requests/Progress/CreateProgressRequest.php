@@ -27,7 +27,8 @@ class CreateProgressRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:10240',
             'max_value' => 'required|integer|max:2147483647',
-            'due_date' => 'required|date'
+            'start_date' => 'date',
+            'due_date' => 'date'
         ];
     }
 }
