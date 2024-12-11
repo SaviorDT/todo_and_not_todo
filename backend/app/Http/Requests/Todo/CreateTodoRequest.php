@@ -26,7 +26,8 @@ class CreateTodoRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:10240',
-            'due_date' => 'required|date'
+            'start_date' => 'date',
+            'due_date' => 'date'
         ];
     }
 }

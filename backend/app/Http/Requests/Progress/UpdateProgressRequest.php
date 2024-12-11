@@ -28,6 +28,7 @@ class UpdateProgressRequest extends FormRequest
             'description' => 'string|max:10240',
             'current_value' => 'integer|max:2147483647',
             'max_value' => 'integer|max:2147483647',
+            'start_date' => 'date',
             'due_date' => 'date',
             'id' => 'required|exists:progresses'
         ];

@@ -30,7 +30,8 @@
 ```php
 'title' => 'required|string|max:255',
 'description' => 'required|string|max:10240',
-'due_date' => 'required|date'
+'start_date' => 'date',
+'due_date' => 'date'
 ```
 ### return {created_todo}
 
@@ -41,6 +42,7 @@
 ```php
 'title' => 'string|max:255',
 'description' => 'string|max:10240',
+'start_date' => 'date',
 'due_date' => 'date',
 'completed' => 'boolean',
 'id' => 'required|exists:todos'
@@ -54,6 +56,7 @@
 'title' => 'required|string|max:255',
 'description' => 'required|string|max:10240',
 'max_value' => 'required|integer|max:2147483647',
+'start_date' => 'date',
 'due_date' => 'required|date'
 ```
 ### return {created_todo}
@@ -67,6 +70,7 @@
 'description' => 'string|max:10240',
 'current_value' => 'integer|max:2147483647',
 'max_value' => 'integer|max:2147483647',
+'start_date' => 'date',
 'due_date' => 'date',
 'id' => 'required|exists:progresses'
 ```
