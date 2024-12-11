@@ -10,8 +10,10 @@
     "test:unit": "vitest"
   },
   "dependencies": {
+    "axios": "^1.7.9",
     "verbose": "^0.2.3",
     "vue": "^3.5.12",
+    "vue-cal": "^4.10.0",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
