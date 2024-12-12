@@ -21,9 +21,8 @@
     },
     methods: {
         getNewTodo(newAddTodo){
-            // this.newTodoList = newAddTodo;
-            console.log('get new todo')
-            this.newTodoList = [{ start: '2024-12-11', end: '2024-12-11', title: 'Event 2' }];
+            this.newTodoList = newAddTodo;
+            console.log(newAddTodo);
         }
     }
   }

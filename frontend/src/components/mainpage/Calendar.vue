@@ -1,46 +1,44 @@
  <template>
   <div class="calendar-container">
-    <p>{{ newTodo }}</p>
     <vue-cal 
       class="vuecal--blue-theme"
       active-view="month"
       :events="combineTodo"
-      />
+    />
       <!-- events-on-month-view="short" -->
     </div>
   </template>
 
 <script>
-import { compile, ref } from 'vue'
-import VueCal from 'vue-cal'
-import 'vue-cal/dist/vuecal.css'
-import InputTodo from './InputTodo.vue';
+  import VueCal from 'vue-cal'
+  import 'vue-cal/dist/vuecal.css'
+  import { Db2Cal, Cal2Db } from '../../convertTodo.js';
 
-export default {
-  components: {
-    VueCal,
-  },
-  props: {
-    newTodo: {
-      type: Array,
-      Required: true
+  export default {
+    components: {
+      VueCal,
+    },
+    props: {
+      newTodo: {
+        type: Array,
+        Required: true
+      }
+    },
+    data: () => {
+      return {
+        storedEvents: [
+          { start: '2024-12-11', end: '2024-12-15', title: 'Event 1' , content: '<i class="icon material-icons">shopping_cart</i>', class: 'leisure'},
+        ],
+      }
+    },
+    computed: {
+      combineTodo(){
+        console.log([...this.newTodo, ...this.storedEvents]);
+        return [...this.newTodo, ...this.storedEvents];
+      }
     }
-  },
-  data: () => {
-    return {
-      storedEvents: [
-        { start: '2024-12-11', end: '2024-12-15', title: 'Event 1' , content: '<i class="icon material-icons">shopping_cart</i>', class: 'leisure'},
-      ],
-    }
-  },
-  computed: {
-    combineTodo(){
-      console.log(this.newTodo)
-      return [...this.storedEvents, ...this.newTodo];
-    }
+
   }
-
-}
 </script>
 
 <style>

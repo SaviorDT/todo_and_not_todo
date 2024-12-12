@@ -4,7 +4,7 @@ import axios from 'axios';
 const store = createStore({
     state: {
         return: {
-            user: '', 
+            userId: '', 
             accessToken: '', 
             refreshToken: ''
         }
@@ -13,7 +13,7 @@ const store = createStore({
         StoreToken(state, returnValue){
             state.accessToken = returnValue.access_token;
             state.refreshToken = returnValue.refresh_token;
-            state.user = returnValue.user.user_name;
+            state.userId = returnValue.user.id;
             console.log('success update to store')
         }
     },
