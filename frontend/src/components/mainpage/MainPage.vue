@@ -1,7 +1,7 @@
 <template>
     <div class="calendar-page">
-      <TextInput />
-      <Calendar />
+      <TextInput @updateTodo = "getNewTodo"/>
+      <Calendar :newTodo = "newTodoList"/>
     </div>
   </template>
   
@@ -13,6 +13,18 @@
     components: {
       TextInput,
       Calendar,
+    },
+    data() {
+        return {
+            newTodoList: []
+        };
+    },
+    methods: {
+        getNewTodo(newAddTodo){
+            // this.newTodoList = newAddTodo;
+            console.log('get new todo')
+            this.newTodoList = [{ start: '2024-12-11', end: '2024-12-11', title: 'Event 2' }];
+        }
     }
   }
   </script>

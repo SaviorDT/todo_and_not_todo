@@ -3,13 +3,13 @@
         <h2>登入</h2>
         <form @submit.prevent="handleLogin">
           <div class="form-group">
-              <label for="username">使用者名稱</label>
-              <input type="text" id="username" v-model="username" placeholder="請輸入使用者名稱" required />
+              <label for="useremail">電子信箱</label>
+              <input type="email" id="useremail" v-model="form.email" placeholder="請輸入註冊時的電子信箱" required />
           </div>
           
           <div class="form-group">
               <label for="password">密碼</label>
-              <input type="password" id="password" v-model="password" placeholder="請輸入密碼" required />
+              <input type="password" id="password" v-model="form.password" placeholder="請輸入密碼" required />
           </div>
           
           <RouterLink to="/regist">註冊</RouterLink>
@@ -21,18 +21,29 @@
 
 <script>
 import { RouterLink } from 'vue-router';
+import store from '@/store';
 export default {
   data() {
     return {
-      username: '',
-      password: '',
+      form: {
+        email: '',
+        password: '',
+      },
       errorMessage: '',
+      loading: false
     };
   },
   methods: {
-    handleLogin() {
-      if(this.username!='' && this.password!='')console.log(this.username, this.password)
-      else this.errorMessage = "請輸入使用者名稱及密碼"
+    async handleLogin() {
+      this.loading = true;
+      const response = await store.dispatch('LoginUser', this.form);
+      if(response.success){
+        this.$router.push('/main_page');
+      }
+      else{
+        this.errorMessage = response.message;
+      }
+      this.loading = false;
     }
   }
 };

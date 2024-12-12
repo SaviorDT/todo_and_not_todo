@@ -1,32 +1,45 @@
  <template>
   <div class="calendar-container">
+    <p>{{ newTodo }}</p>
     <vue-cal 
       class="vuecal--blue-theme"
       active-view="month"
-      :events="events"
+      :events="combineTodo"
       />
+      <!-- events-on-month-view="short" -->
     </div>
   </template>
-    <!-- events-on-month-view="short" -->
 
 <script>
-import { ref } from 'vue'
+import { compile, ref } from 'vue'
 import VueCal from 'vue-cal'
 import 'vue-cal/dist/vuecal.css'
+import InputTodo from './InputTodo.vue';
 
 export default {
   components: {
     VueCal,
   },
+  props: {
+    newTodo: {
+      type: Array,
+      Required: true
+    }
+  },
   data: () => {
     return {
-      events: [
+      storedEvents: [
         { start: '2024-12-11', end: '2024-12-15', title: 'Event 1' , content: '<i class="icon material-icons">shopping_cart</i>', class: 'leisure'},
       ],
     }
   },
-  methods: {
+  computed: {
+    combineTodo(){
+      console.log(this.newTodo)
+      return [...this.storedEvents, ...this.newTodo];
+    }
   }
+
 }
 </script>
 
