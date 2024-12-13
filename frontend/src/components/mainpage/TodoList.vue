@@ -15,7 +15,9 @@
                 <td><input type="text" v-model="event.description" required></td>
                 <td><input type="datetime-local" v-model="event.start_date"></td>
                 <td><input type="datetime-local" v-model="event.due_date"></td>
-                <td v-if="isForPatch" style="padding-left: 17px;"><input type="checkbox" v-model="event.completed"></td>
+                <td v-if="isForPatch" style="padding-left: 17px;">
+                    <input type="checkbox" v-model="event.completed" :value="!!event.completed">
+                </td>
             </tr>
         </tbody>
     </table>

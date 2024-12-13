@@ -14,7 +14,7 @@ export function Db2Cal(events, fetchedLength){
             end: dayjs(event.due_date).format('YYYY-MM-DD HH:mm'),
             title: event.title,
             content: event.description,
-            completed: event.completed,
+            completed: !!event.completed,
             class: className
         }
     })
@@ -28,7 +28,7 @@ export function Cal2Db(events){
             due_date: dayjs(event.end).format('YYYY-MM-DD HH:mm'),
             title: event.title,
             description: event.content,
-            completed: event.completed
+            completed: !!event.completed,
         }
     })
     return temList == '' ? [] : temList;
