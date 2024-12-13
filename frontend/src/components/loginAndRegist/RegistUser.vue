@@ -19,12 +19,13 @@
   
         <RouterLink to="/login">返回登入畫面</RouterLink>
         <button type="submit">送出</button>
+        <p v-if="errorMsg" class="error-message">{{ errorMsg }}</p>
       </form>
     </div>
   </template>
   
   <script>
-  import store from '@/store';
+  import { RegistUser } from '../../fetch.js';
   import { RouterLink } from 'vue-router';
   export default {
     data() {
@@ -33,19 +34,20 @@
           name: '',
           email: '',
           password: ''
-        }
+        },
+        errorMsg: '',
       };
     },
     methods: {
       async submitForm() {
-        store.dispatch('RegistUser', this.form)
+        RegistUser(this.form)
         .then(response => {
           if(response.success){
             alert('註冊成功，將回到登入頁面');
             this.$router.push('/login');
             return;
           }
-          alert(`註冊失敗：${response.message}`);
+          this.errorMsg = response.message;
         })
         .catch(error => {
           console.log(error)

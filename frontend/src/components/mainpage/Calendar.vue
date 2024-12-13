@@ -5,16 +5,17 @@
       active-view="month"
       :events="combineTodo"
     />
-      <!-- events-on-month-view="short" -->
     </div>
   </template>
 
 <script>
   import VueCal from 'vue-cal'
   import 'vue-cal/dist/vuecal.css'
-  import { Db2Cal, Cal2Db } from '../../convertTodo.js';
+  import { Db2Cal } from '../../convertTodo.js';
+  import { GetTodoFromDb } from '../../fetch.js';
 
   export default {
+    emits: ['fetchedTodo'],
     components: {
       VueCal,
     },
@@ -26,31 +27,74 @@
     },
     data: () => {
       return {
-        storedEvents: [
-          { start: '2024-12-11', end: '2024-12-15', title: 'Event 1' , content: '<i class="icon material-icons">shopping_cart</i>', class: 'leisure'},
+        fetchedEvents: [],
+        testData: [
+          { start_date: '2024-12-11', due_date: '2024-12-15', title: 'Event 1' , description: '<i class="icon material-icons">shopping_cart</i>', class: 'leisure', completed: false},
         ],
+      }
+    },
+    methods: {
+      async fetchTodo(){
+        this.fetchedEvents = await GetTodoFromDb();
+        return;
+      },
+      sendToMain(){
+        this.$emit('fetchedTodo', this.fetchedEvents);
       }
     },
     computed: {
       combineTodo(){
-        console.log([...this.newTodo, ...this.storedEvents]);
-        return [...this.newTodo, ...this.storedEvents];
+        return Db2Cal([...this.fetchedEvents, ...this.newTodo], this.fetchedEvents.length);
+      }
+    },
+    mounted() {
+      this.fetchTodo();
+    },
+    watch: {
+      fetchedEvents: {
+        handler(newValue){
+          this.sendToMain();
+        }, 
+        deep: true
       }
     }
-
   }
 </script>
 
 <style>
 .calendar-container {
-  flex-grow: 1;
-  padding: 20px;
-  background-color: #fff;
+  margin: 0 auto; 
+  width: 100%;
 }
 
-.vuecal__event.leisure {
-  background-color: rgba(253, 156, 66, 0.9) !important; 
-  border: 1px solid rgb(233, 136, 46) !important;
+.vuecal__event.upcoming {
+  background-color: rgba(66, 231, 253, 0.7) !important; 
+  border: 1px solid rgba(66, 231, 253, 0.5) !important;
+  color: #fff !important;
+}
+/* .vuecal__event.complete {
+  background-color: rgba(66, 231, 253, 0.7) !important; 
+  border: 1px solid rgba(66, 231, 253, 0.5) !important;
+  color: #fff !important;
+} */
+.vuecal__event.new {
+  background-color: rgba(94, 253, 66, 0.7) !important; 
+  border: 1px solid rgba(94, 253, 66, 0.5) !important;
+  color: #fff !important;
+}
+.vuecal__event.endIn3Days {
+  background-color: rgba(255, 200, 0, 0.7) !important; 
+  border: 1px solid rgba(255, 200, 0, 0.5) !important;
+  color: #fff !important;
+}
+.vuecal__event.endInWeek {
+  background-color: rgba(253, 119, 66, 0.7) !important; 
+  border: 1px solid rgba(253, 119, 66, 0.5) !important;
+  color: #fff !important;
+}
+.vuecal__event.overDue {
+  background-color: rgba(255, 0, 0, 0.7) !important; 
+  border: 1px solid rgba(255, 0, 0, 0.5) !important;
   color: #fff !important;
 }
 

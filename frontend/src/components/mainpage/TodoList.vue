@@ -1,28 +1,29 @@
 <template>
-    <table>
+    <table v-if="todoList.length">
         <thead>
             <tr>
                 <td>待辦事項</td>
                 <td>事項內容</td>
                 <td>開始時間</td>
                 <td>結束時間</td>
+                <td v-if="isForPatch">已完成</td>
             </tr>
         </thead>
         <tbody>
             <tr v-for="(event, index) in todoList" :key="index">
                 <td><input type="text" v-model="event.title" required></td>
-                <td><input type="text" v-model="event.content" required></td>
-                <td><input type="datetime-local" v-model="event.start"></td>
-                <td><input type="datetime-local" v-model="event.end"></td>
+                <td><input type="text" v-model="event.description" required></td>
+                <td><input type="datetime-local" v-model="event.start_date"></td>
+                <td><input type="datetime-local" v-model="event.due_date"></td>
+                <td v-if="isForPatch" style="padding-left: 17px;"><input type="checkbox" v-model="event.completed"></td>
             </tr>
         </tbody>
     </table>
 </template>
 
 <script>
-    import { Cal2Db } from '../../convertTodo';
     export default{
-        props: ['todoList'],
+        props: ['todoList', 'isForPatch'],
         data() {
             return {
                 todoList_table: []
@@ -32,14 +33,12 @@
             todoList: {
                 handler(newValue){
                     this.todoList_table = newValue;
-                    console.log(newValue)
                 }, 
                 deep: true
             },
             todoList_table: {
                 handler(newValue){
-                    const temList = Cal2Db(newValue);
-                    this.$emit('update:todoList', temList);
+                    this.$emit('update:todoList', newValue);
                 },
                 deep: true
             }

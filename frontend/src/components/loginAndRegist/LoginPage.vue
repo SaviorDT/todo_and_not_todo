@@ -14,14 +14,15 @@
           
           <RouterLink to="/regist">註冊</RouterLink>
           <button type="submit" :disabled="loading">登入</button>
-          <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+          <p v-if="errorMsg" class="error-message">{{ errorMsg }}</p>
         </form>
     </div>
 </template>
 
 <script>
 import { RouterLink } from 'vue-router';
-import store from '@/store';
+import { LoginUser } from '../../fetch.js';
+
 export default {
   data() {
     return {
@@ -29,19 +30,19 @@ export default {
         email: '',
         password: '',
       },
-      errorMessage: '',
+      errorMsg: '',
       loading: false
     };
   },
   methods: {
     async handleLogin() {
       this.loading = true;
-      const response = await store.dispatch('LoginUser', this.form);
+      const response = await LoginUser(this.form);
       if(response.success){
         this.$router.push('/main_page');
       }
       else{
-        this.errorMessage = response.message;
+        this.errorMsg = response.message;
       }
       this.loading = false;
     }
