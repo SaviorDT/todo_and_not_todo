@@ -36,6 +36,9 @@
     methods: {
       async fetchTodo(){
         this.fetchedEvents = await GetTodoFromDb();
+        this.fetchedEvents.forEach(todo => {
+          todo.completed = !!todo.completed;
+        })
         return;
       },
       sendToMain(){

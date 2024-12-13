@@ -41,9 +41,6 @@
             this.eventsInDb = JSON.parse(JSON.stringify(returnTodo));
           }
           this.fetchedTodo = returnTodo;
-          this.fetchedTodo.forEach(todo => {
-            todo.completed = !!todo.completed;
-          })
         },
         async checkIsSame(newValue, oldValue){
           let temList = [];
