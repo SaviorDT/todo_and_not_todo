@@ -51,7 +51,6 @@
     },
     computed: {
       combineTodo(){
-        console.log(this.showCompleted)
         let returnTodo = Db2Cal([...this.fetchedEvents, ...this.newTodo], this.fetchedEvents.length);
         return returnTodo.filter(todo => this.showCompleted || !todo.completed);
       }

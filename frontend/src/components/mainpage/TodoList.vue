@@ -18,7 +18,7 @@
                 <td><input type="text" v-model="event.title" required></td>
                 <td><input type="text" v-model="event.description" required></td>
                 <td><input type="datetime-local" v-model="event.start_date"></td>
-                <td><input type="datetime-local" v-model="event.due_date"></td>
+                <td><input type="datetime-local" v-model="event.due_date" :min="getMinDate(event.start_date)"></td>
                 <td v-if="isForPatch" style="padding-left: 17px;"><input type="checkbox" v-model="event.completed"></td>
             </tr>
         </tbody>
@@ -26,12 +26,19 @@
 </template>
 
 <script>
+    import dayjs from 'dayjs';
+
     export default{
         props: ['todoList', 'isForPatch', 'isShowCompleted'],
         data() {
             return {
                 todoList_table: [],
                 showCompleted: this.isShowCompleted
+            }
+        },
+        methods: {
+            getMinDate(start_date){
+                return dayjs(start_date).add(1, 'hour').format('YYYY-MM-DDThh:mm');
             }
         },
         watch: {

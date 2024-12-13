@@ -1,6 +1,8 @@
 import axios from "axios";
 import store from '@/store';
 import router from "./router";
+import dayjs from "dayjs";
+import { day } from "vue-cal/dist/i18n/ar.cjs";
 
 const api = axios.create();
 api.interceptors.request.use(
@@ -91,6 +93,7 @@ export async function UploadTodo(postList, patchList) {
         }
         for(let todo of patchList){
             if(todo.title && todo.title!='' && todo.description && todo.description!=''){
+                if(dayjs(todo.due_date).diff(dayjs(todo.start_date), 'hour') < 1)todo.due_date = dayjs(todo.start_date).add(1, 'hour').format('YYYY-MM-DDThh:mm');
                 await api.patch(`/api/todo/${todo.id}`, todo);
             }
         }
