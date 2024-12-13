@@ -59,6 +59,7 @@
           try{
             let response = await UploadTodo(this.newTodoList, updatedList);
             this.errorMsg = response;
+            window.location.reload();
           }
           catch(error){
             console.log(error)
