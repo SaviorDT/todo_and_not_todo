@@ -86,9 +86,14 @@ export async function GetTodoFromDb() {
 
 export async function UploadTodo(postList, patchList) {
     try{
+        let flag = 1;
         for(let todo of postList){
             if(todo.title && todo.title!='' && todo.description && todo.description!=''){
+                if(dayjs(todo.due_date).diff(dayjs(todo.start_date), 'hour') < 1)todo.due_date = dayjs(todo.start_date).add(1, 'hour').format('YYYY-MM-DDThh:mm');
                 await api.post('/api/todo', todo);
+            }
+            else{
+                flag = 0;
             }
         }
         for(let todo of patchList){
@@ -96,11 +101,14 @@ export async function UploadTodo(postList, patchList) {
                 if(dayjs(todo.due_date).diff(dayjs(todo.start_date), 'hour') < 1)todo.due_date = dayjs(todo.start_date).add(1, 'hour').format('YYYY-MM-DDThh:mm');
                 await api.patch(`/api/todo/${todo.id}`, todo);
             }
+            else{
+                flag = 0;
+            }
         }
-        return 'update successsfully';
+        return [true, flag ? '上傳成功，將重新載入' : '有上傳為執行，請確認必填欄位是否未填寫'];
     }
     catch(error){
         console.error('上傳失敗:', error.response.data);
-        return error.response.data.message;
+        return [false, error.response.data.message];
     }
 }

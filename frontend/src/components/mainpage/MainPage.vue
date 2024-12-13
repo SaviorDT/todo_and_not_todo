@@ -59,8 +59,11 @@
           let updatedList = await this.checkIsSame(this.fetchedTodo, this.eventsInDb);
           try{
             let response = await UploadTodo(this.newTodoList, updatedList);
-            this.errorMsg = response;
-            window.location.reload();
+            // this.errorMsg = response[1];
+            if(response[0]){
+              alert(response[1])
+              window.location.reload();
+            }
           }
           catch(error){
             console.log(error)

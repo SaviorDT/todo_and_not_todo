@@ -34,7 +34,7 @@
                 this.newTodo = this.defaultData;
             },
             addTodo(){
-                let defaultData= [{ title: '' , description: '', start_date: dayjs().format('YYYY-MM-DD HH:mm'), due_date: dayjs().format('YYYY-MM-DD HH:mm')}]
+                let defaultData= { title: '' , description: '', start_date: dayjs().format('YYYY-MM-DD HH:mm'), due_date: dayjs().format('YYYY-MM-DD HH:mm')};
                 this.newTodo.push(defaultData);
             },
             async sendToMain(){
