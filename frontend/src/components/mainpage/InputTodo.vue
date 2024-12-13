@@ -3,6 +3,7 @@
         <textarea v-model="inputText" class="inputHolder" placeholder="請輸入TODO list:"></textarea>
         <div style="padding-bottom: 10px;">
             <button @click="AIconvert">進行AI辨識</button>
+            <button @click="addTodo">手動新增todo</button>
         </div>
         <h3 v-if="newTodo.length">即將新增：</h3>
         <TodoList :todoList="newTodo"/>
@@ -25,12 +26,16 @@
                 inputText: '',
                 newTodo: [],
                 errorMsg: '',
-                testData: [{ title: 'Event 2' , description: 'this is a test', start_date: dayjs('2024-12-11').format('YYYY-MM-DD HH:mm'), due_date: dayjs('2024-12-12').format('YYYY-MM-DD HH:mm')}]
+                defaultData: [{ title: '' , description: '', start_date: dayjs().format('YYYY-MM-DD HH:mm'), due_date: dayjs().format('YYYY-MM-DD HH:mm')}]
             }
         },
         methods: {
             AIconvert(){
-                this.newTodo = this.testData;
+                //
+                this.newTodo = this.defaultData;
+            },
+            addTodo(){
+                this.newTodo = [...this.newTodo, ...this.defaultData];
             },
             async sendToMain(){
                 // console.log(this.newTodo)
@@ -55,8 +60,9 @@
         font-size: 24px;
     }
     button{
-        width: 20vw;
+        width: auto;
         font-size: 24px;
+        margin-right: 10px;
     }
     .error-message {
         color: red;

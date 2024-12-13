@@ -85,6 +85,7 @@ export async function GetTodoFromDb() {
 export async function UploadTodo(postList, patchList) {
     try{
         for(let todo of postList){
+            if(todo.title && todo.title!='' && todo.description && todo.description!='')
             await api.post('/api/todo', todo);
         }
         for(let todo of patchList){
