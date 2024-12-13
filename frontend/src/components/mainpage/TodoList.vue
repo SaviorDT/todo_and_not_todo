@@ -6,8 +6,8 @@
     <table v-if="todoList.length">
         <thead>
             <tr>
-                <td>待辦事項</td>
-                <td>事項內容</td>
+                <td>待辦事項<span style="color: red;">*</span></td>
+                <td>事項內容<span style="color: red;">*</span></td>
                 <td>開始時間</td>
                 <td>結束時間</td>
                 <td v-if="isForPatch">已完成</td>
