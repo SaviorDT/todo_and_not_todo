@@ -26,7 +26,6 @@
                 inputText: '',
                 newTodo: [],
                 errorMsg: '',
-                defaultData: [{ title: '' , description: '', start_date: dayjs().format('YYYY-MM-DD HH:mm'), due_date: dayjs().format('YYYY-MM-DD HH:mm')}]
             }
         },
         methods: {
@@ -35,7 +34,8 @@
                 this.newTodo = this.defaultData;
             },
             addTodo(){
-                this.newTodo = [...this.newTodo, ...this.defaultData];
+                let defaultData= [{ title: '' , description: '', start_date: dayjs().format('YYYY-MM-DD HH:mm'), due_date: dayjs().format('YYYY-MM-DD HH:mm')}]
+                this.newTodo.push(defaultData);
             },
             async sendToMain(){
                 // console.log(this.newTodo)

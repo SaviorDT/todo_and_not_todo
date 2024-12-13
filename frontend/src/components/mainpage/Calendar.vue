@@ -22,10 +22,14 @@
     props: {
       newTodo: {
         type: Array,
-        Required: true
+        equired: true
+      },
+      showCompleted: {
+        type: Boolean,
+        default: false
       }
     },
-    data: () => {
+    data() {
       return {
         fetchedEvents: [],
         testData: [
@@ -47,7 +51,9 @@
     },
     computed: {
       combineTodo(){
-        return Db2Cal([...this.fetchedEvents, ...this.newTodo], this.fetchedEvents.length);
+        console.log(this.showCompleted)
+        let returnTodo = Db2Cal([...this.fetchedEvents, ...this.newTodo], this.fetchedEvents.length);
+        return returnTodo.filter(todo => this.showCompleted || !todo.completed);
       }
     },
     mounted() {
