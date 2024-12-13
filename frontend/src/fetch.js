@@ -38,7 +38,7 @@ api.interceptors.response.use(
                 console.error('Token refresh failed:', refreshError);
                 sessionStorage.clear();
                 alert('離線過久，將重新登入');
-                router.push('/login');
+                router.push('/');
                 return Promise.reject(refreshError);
             }
         }

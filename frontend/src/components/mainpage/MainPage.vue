@@ -4,7 +4,7 @@
       <h3 v-if="fetchedTodo.length">已在資料庫：</h3>
       <TodoList :todoList="fetchedTodo" :isForPatch="true"/>
       <div style="width: 100%; padding-bottom: 10px; padding-top: 10px;">
-        <button v-if="newTodoList.length>0 || (eventsInDb.length && JSON.stringify(fetchedTodo)==JSON.stringify(eventsInDb))" @click="sendToDb" :disabled="loading">上傳變更</button>
+        <button v-if="newTodoList.length>0 || (eventsInDb.length && JSON.stringify(fetchedTodo)!==JSON.stringify(eventsInDb))" @click="sendToDb" :disabled="loading">上傳變更</button>
         <p v-if="errorMsg" class="error-message">{{ errorMsg }}</p>
       </div>
       <Calendar @fetchedTodo = "getStoredTodo" :newTodo = "newTodoList"/>

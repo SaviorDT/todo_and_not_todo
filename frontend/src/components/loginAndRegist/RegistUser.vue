@@ -17,7 +17,7 @@
           <input type="password" id="password" v-model="form.password" placeholder="請輸入密碼" required />
         </div>
   
-        <RouterLink to="/login">返回登入畫面</RouterLink>
+        <RouterLink to="/">返回登入畫面</RouterLink>
         <button type="submit">送出</button>
         <p v-if="errorMsg" class="error-message">{{ errorMsg }}</p>
       </form>
@@ -44,7 +44,7 @@
         .then(response => {
           if(response.success){
             alert('註冊成功，將回到登入頁面');
-            this.$router.push('/login');
+            this.$router.push('/');
             return;
           }
           this.errorMsg = response.message;
