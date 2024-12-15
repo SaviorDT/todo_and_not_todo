@@ -25,7 +25,7 @@ class UpdateTodoRequest extends FormRequest
     {
         return [
             'title' => 'string|max:255',
-            'description' => 'string|max:10240',
+            'description' => 'nullable|string|max:10240',
             'start_date' => 'date',
             'due_date' => 'date',
             'completed' => 'boolean',

@@ -88,8 +88,9 @@ export async function UploadTodo(postList, patchList) {
     try{
         let flag = 1;
         for(let todo of postList){
-            if(todo.title && todo.title!='' && todo.description && todo.description!=''){
-                if(dayjs(todo.due_date).diff(dayjs(todo.start_date), 'hour') < 1)todo.due_date = dayjs(todo.start_date).add(1, 'hour').format('YYYY-MM-DDThh:mm');
+            if(!todo.description)todo.description = "";
+            if(todo.title && todo.title!=''){
+                if(dayjs(todo.due_date).diff(dayjs(todo.start_date), 'hour') < 1)todo.due_date = dayjs(todo.start_date).add(0.5, 'hour').format('YYYY-MM-DD HH:mm');
                 await api.post('/api/todo', todo);
             }
             else{
@@ -97,8 +98,9 @@ export async function UploadTodo(postList, patchList) {
             }
         }
         for(let todo of patchList){
-            if(todo.title && todo.title!='' && todo.description && todo.description!=''){
-                if(dayjs(todo.due_date).diff(dayjs(todo.start_date), 'hour') < 1)todo.due_date = dayjs(todo.start_date).add(1, 'hour').format('YYYY-MM-DDThh:mm');
+            if(!todo.description)todo.description = "";
+            if(todo.title && todo.title!=''){
+                if(dayjs(todo.due_date).diff(dayjs(todo.start_date), 'hour') < 1)todo.due_date = dayjs(todo.start_date).add(0.5, 'hour').format('YYYY-MM-DD HH:mm');
                 await api.patch(`/api/todo/${todo.id}`, todo);
             }
             else{

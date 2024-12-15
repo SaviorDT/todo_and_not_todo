@@ -38,7 +38,7 @@
         },
         methods: {
             getMinDate(start_date){
-                return dayjs(start_date).add(1, 'hour').format('YYYY-MM-DDThh:mm');
+                return dayjs(start_date).add(0.5, 'hour').format('YYYY-MM-DD HH:mm');
             }
         },
         watch: {
