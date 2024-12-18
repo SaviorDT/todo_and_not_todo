@@ -25,9 +25,9 @@ class UpdateTodoRequest extends FormRequest
     {
         return [
             'title' => 'string|max:255',
-            'description' => 'string|max:10240',
-            'start_date' => 'date',
-            'due_date' => 'date',
+            'description' => 'nullable|string|max:10240',
+            'start_date' => 'nullable|date',
+            'due_date' => 'nullable|date',
             'completed' => 'boolean',
             'id' => 'required|exists:todos'
         ];
