@@ -1,9 +1,9 @@
 <template>
     <div style="margin: 0 auto; width: 100%;">
         <textarea v-model="forAI.userinput" class="inputHolder" placeholder="請輸入TODO list:"></textarea>
-        <input type="text" id="password" v-model="forAI.api_key" placeholder="請輸入api key" required style="width: 600px; font-size: 24px; margin-bottom: 5px;"/>
+        <input type="password" id="password" v-model="forAI.api_key" placeholder="請輸入api key" required style="width: 600px; font-size: 24px; margin-bottom: 5px;"/>
         <div style="padding-bottom: 10px;">
-            <button @click="AIconvert">進行AI辨識</button>
+            <button @click="AIconvert" :disabled="isLoading">進行AI辨識</button>
             <button @click="addTodo">手動新增todo</button>
         </div>
         <h3 v-if="newTodo.length">即將新增：</h3>
@@ -14,7 +14,7 @@
 
 <script>
     import { watch } from 'vue';
-import { fetchFromAI } from '../../fetch';
+    import { fetchFromAI } from '../../fetch';
     import TodoList from './TodoList.vue';
     import dayjs from 'dayjs';
 
@@ -32,16 +32,19 @@ import { fetchFromAI } from '../../fetch';
                 },
                 newTodo: [],
                 errorMsg: '',
+                isLoading: false
             }
         },
         methods: {
             async AIconvert(){
+                this.isLoading = true;
                 let AItodo = await fetchFromAI(this.forAI);
                 if(AItodo.success)this.newTodo = this.newTodo.concat(AItodo.message);
-                this.errorMsg = AItodo.message
+                else this.errorMsg = AItodo.message;
+                this.isLoading = false;
             },
             addTodo(){
-                let defaultData= { title: '' , description: '', start_date: dayjs().format('YYYY-MM-DD HH:mm'), due_date: dayjs().format('YYYY-MM-DD HH:mm')};
+                let defaultData= { title: '' , description: '', start_date: '', due_date: ''};
                 this.newTodo.push(defaultData);
             },
             async sendToMain(){
@@ -86,5 +89,9 @@ import { fetchFromAI } from '../../fetch';
         color: red;
         text-align: center;
         margin-top: 10px;
+    }
+    button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
     }
 </style>

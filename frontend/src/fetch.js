@@ -2,7 +2,6 @@ import axios from "axios";
 import store from '@/store';
 import router from "./router";
 import dayjs from "dayjs";
-import { day } from "vue-cal/dist/i18n/ar.cjs";
 
 const api = axios.create();
 api.interceptors.request.use(
@@ -90,7 +89,9 @@ export async function UploadTodo(postList, patchList) {
         for(let todo of postList){
             if(!todo.description)todo.description = "";
             if(todo.title && todo.title!=''){
-                if(dayjs(todo.due_date).diff(dayjs(todo.start_date), 'hour') < 1)todo.due_date = dayjs(todo.start_date).add(0.5, 'hour').format('YYYY-MM-DD HH:mm');
+                if(!todo.start_date) todo.start_date = null;
+                if(!todo.due_date) todo.due_date = null;
+                if(todo.start_date && todo.due_date && dayjs(todo.due_date).diff(dayjs(todo.start_date), 'hour') < 1)todo.due_date = dayjs(todo.start_date).add(0.5, 'hour').format('YYYY-MM-DD HH:mm');
                 await api.post('/api/todo', todo);
             }
             else{
@@ -117,9 +118,16 @@ export async function UploadTodo(postList, patchList) {
 
 export async function fetchFromAI(form){
     try{
-        const response = await axios.get('/gemini', form);
-        console.log(response.data);
-        return {success: true, message: response.data};
+        const response = await axios.get('/api/gemini', {
+            params: form
+        });
+        let data = response.data;
+        data.forEach((todo, index, array) => {
+            if(todo.start_date)array[index].start_date = dayjs(todo.start_date).format('YYYY-MM-DD HH:mm')
+            if(todo.due_date)array[index].due_date = dayjs(todo.due_date).format('YYYY-MM-DD HH:mm')
+        });
+        
+        return {success: true, message: data};
     }
     catch(error){
         console.error('辨識失敗:', error.response.data);
