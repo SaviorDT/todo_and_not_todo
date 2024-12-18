@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\api\GeminiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,3 +34,4 @@ Route::middleware('auth:api')->group(function() {
 Route::post('/auth/register','App\Http\Controllers\api\AuthController@register');
 Route::post('/auth/login','App\Http\Controllers\api\AuthController@login');
 Route::post('/auth/refresh','App\Http\Controllers\api\AuthController@refreshToken');
+Route::get('/gemini','App\Http\Controllers\api\GeminiController@textInput');
