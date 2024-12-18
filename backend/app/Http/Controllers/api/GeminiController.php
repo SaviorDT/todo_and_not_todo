@@ -125,10 +125,14 @@ class GeminiController extends Controller
         $result = $response->text();
 
         $jsonDecoded = json_decode($result, true);
+        
 
         // return $result;
         if ($jsonDecoded === null) {
             return response()->json(['error' => 'Invalid JSON format from API response', 'raw' => $result], 400);
+        }
+        elseif ($result == "[]") {
+            return response()->json(['error' => 'No todo be recognized', 'raw' => $result], 400);
         }
 
         // save_to_file($userinput, $jsonDecoded);
