@@ -20,6 +20,7 @@
                 <td><input type="datetime-local" v-model="event.start_date"></td>
                 <td><input type="datetime-local" v-model="event.due_date" :min="getMinDate(event.start_date)"></td>
                 <td v-if="isForPatch" style="padding-left: 17px;"><input type="checkbox" v-model="event.completed"></td>
+                <td v-if="!isForPatch"><button @click="deleteIndex(index)">刪除</button></td>
             </tr>
         </tbody>
     </table>
@@ -39,6 +40,9 @@
         methods: {
             getMinDate(start_date){
                 return dayjs(start_date).add(0.5, 'hour').format('YYYY-MM-DD HH:mm');
+            },
+            deleteIndex(index){
+                this.todoList_table.splice(index, 1);
             }
         },
         watch: {

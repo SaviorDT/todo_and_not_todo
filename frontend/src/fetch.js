@@ -131,6 +131,6 @@ export async function fetchFromAI(form){
     }
     catch(error){
         console.error('辨識失敗:', error.response.data);
-        return {success: false, messsage: error.response.data.message};
+        return {success: false, message: error.response.data.message};
     }
 }

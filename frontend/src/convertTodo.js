@@ -10,8 +10,8 @@ export function Db2Cal(events, fetchedLength){
         else if(dayjs(event.due_date).diff(dayjs(), 'hour') <= 168)className = 'endInWeek';
 
         return {
-            start: dayjs(event.start_date).format('YYYY-MM-DD HH:mm'),
-            end: dayjs(event.due_date).format('YYYY-MM-DD HH:mm'),
+            start: event.start_date ?  dayjs(event.start_date).format('YYYY-MM-DD HH:mm') : dayjs(event.due_date).add(-0.5, 'hour').format('YYYY-MM-DD HH:mm'),
+            end: event.due_date ? dayjs(event.due_date).format('YYYY-MM-DD HH:mm') : dayjs(event.start_date).add(0.5, 'hour').format('YYYY-MM-DD HH:mm'),
             title: event.title,
             content: event.description,
             completed: !!event.completed,
