@@ -114,3 +114,15 @@ export async function UploadTodo(postList, patchList) {
         return [false, error.response.data.message];
     }
 }
+
+export async function fetchFromAI(form){
+    try{
+        const response = await axios.get('/gemini', form);
+        console.log(response.data);
+        return {success: true, message: response.data};
+    }
+    catch(error){
+        console.error('辨識失敗:', error.response.data);
+        return {success: false, messsage: error.response.data.message};
+    }
+}

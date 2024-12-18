@@ -1,6 +1,7 @@
 <template>
     <div style="margin: 0 auto; width: 100%;">
-        <textarea v-model="inputText" class="inputHolder" placeholder="請輸入TODO list:"></textarea>
+        <textarea v-model="forAI.userinput" class="inputHolder" placeholder="請輸入TODO list:"></textarea>
+        <input type="text" id="password" v-model="forAI.api_key" placeholder="請輸入api key" required style="width: 600px; font-size: 24px; margin-bottom: 5px;"/>
         <div style="padding-bottom: 10px;">
             <button @click="AIconvert">進行AI辨識</button>
             <button @click="addTodo">手動新增todo</button>
@@ -12,6 +13,8 @@
 </template>
 
 <script>
+    import { watch } from 'vue';
+import { fetchFromAI } from '../../fetch';
     import TodoList from './TodoList.vue';
     import dayjs from 'dayjs';
 
@@ -23,15 +26,19 @@
         data() {
             return {
                 //variable name
-                inputText: '',
+                forAI: {
+                    userinput: '',
+                    api_key: ''
+                },
                 newTodo: [],
                 errorMsg: '',
             }
         },
         methods: {
-            AIconvert(){
-                //
-                this.newTodo = this.defaultData;
+            async AIconvert(){
+                let AItodo = await fetchFromAI(this.forAI);
+                if(AItodo.success)this.newTodo = this.newTodo.concat(AItodo.message);
+                this.errorMsg = AItodo.message
             },
             addTodo(){
                 let defaultData= { title: '' , description: '', start_date: dayjs().format('YYYY-MM-DD HH:mm'), due_date: dayjs().format('YYYY-MM-DD HH:mm')};
@@ -48,6 +55,17 @@
                     this.sendToMain()
                 }, 
                 deep: true
+            },
+            'forAI.api_key': {
+                handler(newValue){
+                    sessionStorage.setItem('api_key', newValue);
+                }
+            }
+        },
+        mounted(){
+            const storedApiKey = sessionStorage.getItem('api_key');
+            if(storedApiKey && storedApiKey!=undefined && storedApiKey!=''){
+                this.forAI.api_key = storedApiKey;
             }
         }
   }
