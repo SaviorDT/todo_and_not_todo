@@ -4,7 +4,7 @@ namespace App\Http\Requests\Gemini;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateGeminiRequest extends FormRequest
+class GeminiRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

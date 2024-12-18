@@ -11,22 +11,23 @@ use GeminiAPI\Resources\Content;
 use GeminiAPI\Enums\Role;
 use DateTime;
 
-use App\Http\Requests\Gemini\CreateGeminiRequest;
-use App\Http\Requests\Gemini\UpdateGeminiRequest;
+use App\Http\Requests\Gemini\GeminiRequest;
 
 
 class GeminiController extends Controller
 {
-    private function parse_chinese_time($time_string, $client, $today) {
+    private function parse_chinese_time($time_string, $client, $currentTime) {
         $nextWed = date('Y-m-d', strtotime('next wednesday'));
         $tomorrowDate = date('Y-m-d', strtotime('tomorrow'));
+        $today2pm = new DateTime('today 14:30');
+        $today2pm = $today2pm->format('Y-m-d H:i');
         
         // print($nextWed);
         $history = [
-            Content::text('你知道今天是幾月幾日嗎?', Role::User),
+            Content::text('你知道現在是什麼時候嗎?', Role::User),
             Content::text(
                 <<<TEXT
-                今天是$today
+                現在的時間是$currentTime
                 TEXT,
                 Role::Model,
             ),
@@ -52,6 +53,20 @@ class GeminiController extends Controller
                 TEXT,
                 Role::Model,
             ),
+            Content::text("如果有精確的時間，可以幫我也列出來嗎? 像是｢今天下午2點30分要跟同學聚餐」", Role::User),
+            Content::text(
+                <<<TEXT
+                我會轉換成，要跟同學聚餐: $today2pm
+                TEXT,
+                Role::Model,
+            ),
+            Content::text("如果事情沒有時間，請幫我說沒有特定時間?像是「把數學作業寫完 整理包包 12/28paper study」", Role::User),
+            Content::text(
+                <<<TEXT
+                好，我只會輸出，「把數學作業寫完: 沒有特定時間, 整理包包: 沒有特定時間, paper study 2024-12-28」。
+                TEXT,
+                Role::Model,
+            ),
         ];
         $chat = $client->generativeModel(ModelName::GEMINI_PRO)
         ->startChat()
@@ -62,21 +77,22 @@ class GeminiController extends Controller
         return $response->text();
     }
 
-    public function textInput(CreateGeminiRequest $request)
+    public function textInput(GeminiRequest $request)
     {
         $validated = $request->validated();
         $client = new Client($validated['api_key']);
 
         // $text = "隔天考期末考，記得要查資料，12/9參加競技";
-        $today = new DateTime();
-        $today = $today->format('Y-m-d');
+        $currentTime = new DateTime();
+        $currentTime = $currentTime->format('Y-m-d H:i:s');
 
         $chat = $client->generativeModel(ModelName::GEMINI_PRO)->startChat();
 
         $userinput = (string)$validated['userinput'];
                         
-        $reviseInput = $this->parse_chinese_time($userinput, $client, $today);
+        $reviseInput = $this->parse_chinese_time($userinput, $client, $currentTime);
 
+        // return $reviseInput;
         // print($reviseInput);
         
         $response = $chat->sendMessage(
@@ -96,6 +112,7 @@ class GeminiController extends Controller
 [{\"title\": \"打大資盃\", \"start_date\": \"2024-11-08\", \"due_date\": \"2024-11-09\", \"description\": \"小心啊罵給太多飯\"}]
 
 
+如果沒有特別說時間，把時間都留白即可
 請再幫我盡量去區隔主要的事情，與提醒事項，依照你的觀點放在正確的欄位中。
 我希望輸出只保留json
 
