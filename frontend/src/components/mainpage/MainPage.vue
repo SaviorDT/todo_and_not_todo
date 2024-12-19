@@ -1,4 +1,5 @@
 <template>
+    <button style="position: absolute; right: 0; top: 0; width: auto;" @click="logout">登出</button>
     <div class="main_page">
       <TextInput @updateTodo = "getNewTodo"/>
       <h3 v-if="fetchedTodo.length">已在資料庫：</h3>
@@ -56,6 +57,7 @@
         },
         async sendToDb(){
           this.loading = true;
+          this.errorMsg = '';
           let updatedList = await this.checkIsSame(this.fetchedTodo, this.eventsInDb);
           try{
             let response = await UploadTodo(this.newTodoList, updatedList);
@@ -71,6 +73,11 @@
             console.log(error)
           }
           this.loading = false;
+        },
+        logout(){
+          alert("即將登出");
+          sessionStorage.clear();
+          this.$router.push('/');
         }
       },
   }

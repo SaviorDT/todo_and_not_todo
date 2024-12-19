@@ -108,7 +108,7 @@ export async function UploadTodo(postList, patchList) {
                 flag = 0;
             }
         }
-        return [true, flag ? '上傳成功，將重新載入' : '有上傳為執行，請確認必填欄位是否未填寫'];
+        return [true, flag ? '上傳成功，將重新載入' : '有上傳未執行，請確認必填欄位是否未填寫'];
     }
     catch(error){
         console.error('上傳失敗:', error.response.data);
@@ -131,6 +131,10 @@ export async function fetchFromAI(form){
     }
     catch(error){
         console.error('辨識失敗:', error.response.data);
-        return {success: false, message: error.response.data.message};
+        let errMsg = '';
+        if(error.response.data.message) errMsg = error.response.data.message;
+        else if(error.response.data.raw && error.response.data.raw!='' && error.response.data.raw!='[]') errMsg = error.response.data.raw
+        else errMsg = error.response.data.error
+        return {success: false, message: errMsg};
     }
 }
