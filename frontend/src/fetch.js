@@ -108,7 +108,7 @@ export async function UploadTodo(postList, patchList) {
                 flag = 0;
             }
         }
-        return [true, flag ? '上傳成功，將重新載入' : '有上傳為執行，請確認必填欄位是否未填寫'];
+        return [true, flag ? '上傳成功，將重新載入' : '有上傳未執行，請確認必填欄位是否未填寫'];
     }
     catch(error){
         console.error('上傳失敗:', error.response.data);
