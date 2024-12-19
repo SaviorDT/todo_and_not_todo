@@ -131,6 +131,10 @@ export async function fetchFromAI(form){
     }
     catch(error){
         console.error('辨識失敗:', error.response.data);
-        return {success: false, message: error.response.data.message};
+        let errMsg = '';
+        if(error.response.data.message) errMsg = error.response.data.message;
+        else if(error.response.data.raw && error.response.data.raw!='' && error.response.data.raw!='[]') errMsg = error.response.data.raw
+        else errMsg = error.response.data.error
+        return {success: false, message: errMsg};
     }
 }

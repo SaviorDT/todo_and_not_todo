@@ -38,6 +38,7 @@
         methods: {
             async AIconvert(){
                 this.isLoading = true;
+                this.errorMsg = '';
                 let AItodo = await fetchFromAI(this.forAI);
                 if(AItodo.success)this.newTodo = this.newTodo.concat(AItodo.message);
                 else this.errorMsg = AItodo.message;

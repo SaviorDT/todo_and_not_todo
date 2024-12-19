@@ -57,6 +57,7 @@
         },
         async sendToDb(){
           this.loading = true;
+          this.errorMsg = '';
           let updatedList = await this.checkIsSame(this.fetchedTodo, this.eventsInDb);
           try{
             let response = await UploadTodo(this.newTodoList, updatedList);
