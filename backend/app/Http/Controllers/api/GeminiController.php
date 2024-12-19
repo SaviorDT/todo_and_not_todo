@@ -67,13 +67,22 @@ class GeminiController extends Controller
                 TEXT,
                 Role::Model,
             ),
+            Content::text("如果你沒有看到特定的時間或事件，因為可能是使用者的習慣，那就把那句話原封不動的說出來，並且說明沒有特定時間。像是有人輸入，「今朝有酒今朝醉」，我們不知道是什麼意思，那你應該怎麼輸出？", Role::User),
+            Content::text(
+                <<<TEXT
+                今朝有酒今朝醉: 沒有特定時間
+                TEXT,
+                Role::Model,
+            ),
         ];
         $chat = $client->generativeModel(ModelName::GEMINI_PRO)
         ->startChat()
         ->withHistory($history);
 
+
         // print($time_string);
         $response = $chat->sendMessage(new TextPart($time_string));
+        // print($response->text());
         return $response->text();
     }
 
@@ -110,6 +119,10 @@ class GeminiController extends Controller
 輸入：'11/8到11/9打大資盃'
 輸出2：
 [{\"title\": \"打大資盃\", \"start_date\": \"2024-11-08\", \"due_date\": \"2024-11-09\", \"description\": \"小心啊罵給太多飯\"}]
+
+如果分析不出一個事件，那就把事情原封不動的放在title與descript就好，或是沒有特定的時間就放在description即可，但一定要給一個title
+輸入: '蒙地卡羅: 沒有特定時間'
+輸出: [{\"title\": \"蒙地卡羅\", \"start_date\": null, \"due_date\": null, \"description\": \"沒有特定時間\"}]
 
 
 如果沒有特別說時間，把時間都留白即可
