@@ -90,12 +90,12 @@
   border: 1px solid rgba(94, 253, 66, 0.5) !important;
   color: #fff !important;
 }
-.vuecal__event.endIn3Days {
+.vuecal__event.endInWeek {
   background-color: rgba(255, 200, 0, 0.7) !important; 
   border: 1px solid rgba(255, 200, 0, 0.5) !important;
   color: #fff !important;
 }
-.vuecal__event.endInWeek {
+.vuecal__event.endIn3Days {
   background-color: rgba(253, 119, 66, 0.7) !important; 
   border: 1px solid rgba(253, 119, 66, 0.5) !important;
   color: #fff !important;
